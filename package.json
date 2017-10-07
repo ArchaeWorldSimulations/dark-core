@@ -1,0 +1,25 @@
+{
+  "name": "dark-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArchaeWorldSimulations/dark-core.git"
+  },
+  "author": "Dan Armstrong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArchaeWorldSimulations/dark-core/issues"
+  },
+  "homepage": "https://github.com/ArchaeWorldSimulations/dark-core#readme",
+  "dependencies": {
+    "kbpgp": "^2.0.74"
+  },
+  "devDependencies": {
+    "tslint": "^5.7.0"
+  }
+}
