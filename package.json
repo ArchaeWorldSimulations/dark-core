@@ -17,9 +17,13 @@
   },
   "homepage": "https://github.com/ArchaeWorldSimulations/dark-core#readme",
   "dependencies": {
-    "kbpgp": "^2.0.74"
+    "kbpgp": "^2.0.74",
+    "promise": "^8.0.1"
   },
   "devDependencies": {
-    "tslint": "^5.7.0"
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.2.2",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.3"
   }
 }

@@ -11,14 +11,19 @@ export class DarkRequest extends DarkPacket {
             params: params || {}
         };
         this.packet.files = {};
+
+        return this;
     }
 
 
-    public setFiles(files: any): void {
+    public setFiles(files: any): DarkRequest {
         this.packet.files = files;
+        return this;
     }
 
-    public addFile(name: string, content: string): void {
+    public addFile(name: string, content: string): DarkRequest {
         this.packet.files[name] = content;
+
+        return this;
     }
 }

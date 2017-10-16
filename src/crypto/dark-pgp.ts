@@ -1,12 +1,12 @@
 import * as kbpgp from 'kbpgp';
-
+//declare const kbpgp;
 
 export class DarkPgp {
 
     constructor() {
     }
 
-    public createKeys(username: string): Promise<any> {
+    public static createKeys(username: string): Promise<any> {
         return new Promise((resolve, reject) => {
             kbpgp.KeyManager.generate_ecc({userid: username}, (err, keyPair) => {
                 if (err) return reject(err);
@@ -18,7 +18,7 @@ export class DarkPgp {
         });
     }
 
-    public encrypt(to: any, body: any): Promise<any> {
+    public static encrypt(to: any, body: any): Promise<any> {
         return new Promise((resolve, reject) => {
             kbpgp.box({
                 encrypt_for: to,
@@ -30,7 +30,7 @@ export class DarkPgp {
         });
     }
 
-    public decrypt(keyManager: any, message: string): Promise<any> {
+    public static decrypt(keyManager: any, message: string): Promise<any> {
         return new Promise((resolve, reject) => {
             kbpgp.unbox({keyfetch: keyManager, armored: message}, (err, literals) => {
                 if (err) return reject(err);
@@ -39,7 +39,7 @@ export class DarkPgp {
         });
     }
 
-    public importKey(key: string, password?: string): Promise<any> {
+    public static importKey(key: string, password?: string): Promise<any> {
         return new Promise((resolve, reject) => {
             kbpgp.KeyManager.import_from_armored_pgp({
                 armored: key
@@ -61,7 +61,7 @@ export class DarkPgp {
         });
     }
 
-    public exportPublicKey(keyPair: any): Promise<any> {
+    public static exportPublicKey(keyPair: any): Promise<any> {
         return new Promise((resolve, reject) => {
             keyPair.export_pgp_public({}, (err, exportedPublicKey) => {
                 if (err) return reject(err);
@@ -70,7 +70,7 @@ export class DarkPgp {
         });
     }
 
-    public exportPrivateKey(keyPair: any, password?: string): Promise<any> {
+    public static exportPrivateKey(keyPair: any, password?: string): Promise<any> {
         return new Promise((resolve, reject) => {
             keyPair.export_pgp_private({
                 passphrase: password

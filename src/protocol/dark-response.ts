@@ -8,5 +8,7 @@ export class DarkResponse extends DarkPacket {
         this.packet.response = {
             status: status || 200
         };
+
+        return this;
     }
 }
