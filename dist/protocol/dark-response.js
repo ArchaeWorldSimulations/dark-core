@@ -38,6 +38,17 @@ var DarkResponse = /** @class */ (function (_super) {
         _super.prototype.setBody.call(this, body);
         return this;
     };
+    /* @Override */
+    DarkResponse.prototype.decrypt = function (keyManager, encrypted) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _super.prototype.decrypt.call(_this, keyManager, encrypted).then(function (decrypted) {
+                resolve(DarkResponse.parse(decrypted));
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    };
     DarkResponse.parse = function (packet) {
         return new DarkResponse(packet.response.status)
             .setHeaders(packet.headers || {}).setBody(packet.body || {});

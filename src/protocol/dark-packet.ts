@@ -61,7 +61,7 @@ export class DarkPacket {
         });
     }
 
-    public decrypt(keyManager: any, encrypted: any): Promise<any> {
+    public static decrypt(keyManager: any, encrypted: any): Promise<any> {
         return new Promise((resolve, reject) => {
             DarkPgp.decrypt(keyManager, encrypted.dark).then((decrypted) => {
                 resolve(decrypted);

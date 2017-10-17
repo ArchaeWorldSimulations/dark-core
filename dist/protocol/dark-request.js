@@ -16,7 +16,7 @@ var DarkRequest = /** @class */ (function (_super) {
     function DarkRequest(method, route, params) {
         var _this = _super.call(this) || this;
         _this.packet.request = {
-            method: method || 'get',
+            method: method.toUpperCase(),
             route: route,
             params: params || {}
         };
@@ -70,10 +70,25 @@ var DarkRequest = /** @class */ (function (_super) {
         _super.prototype.setBody.call(this, body);
         return this;
     };
+    /* @Override */
+    DarkRequest.prototype.decrypt = function (keyManager, encrypted) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _super.prototype.decrypt.call(_this, keyManager, encrypted).then(function (decrypted) {
+                resolve(DarkRequest.parse(decrypted));
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    };
     DarkRequest.parse = function (packet) {
         return new DarkRequest(packet.request.method, packet.request.route, packet.request.params || {})
             .setFiles(packet.files || {}).setHeaders(packet.headers || {}).setBody(packet.body || {});
     };
+    DarkRequest.GET = 'GET';
+    DarkRequest.POST = 'POST';
+    DarkRequest.PUT = 'PUT';
+    DarkRequest.DELETE = 'DELETE';
     return DarkRequest;
 }(dark_packet_1.DarkPacket));
 exports.DarkRequest = DarkRequest;

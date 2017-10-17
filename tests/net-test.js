@@ -4,15 +4,19 @@ var DarkCore = require('../index');
 var darkNet = new DarkCore.DarkNet();
 
 // Register a route handler, the handler must return a promise that resolves a DarkResponse
-darkNet.registerRoute('get', 'test', function (req) {
+darkNet.registerRoute(DarkCore.DarkRequest.GET, 'test', function (req) {
     return new Promise(function (resolve, reject) {
-        var response = new DarkCore.DarkResponse(200).addHeader('test', 'good!');
+        var response = new DarkCore.DarkResponse(200).addHeader('test', 'good!').setBody({
+            handled: true
+        });
         resolve(response);
     });
 });
 
 // Create a dummy request and "build" it into an object
-var request = new DarkCore.DarkRequest('get', 'test').build();
+var request = new DarkCore.DarkRequest(DarkCore.DarkRequest.GET, 'test').setBody({
+    unhandled: true
+}).build();
 console.log('request', request);
 
 // Parse the object back to a DarkRequest

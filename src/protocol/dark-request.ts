@@ -3,10 +3,15 @@ import {DarkPacket} from './dark-packet';
 
 export class DarkRequest extends DarkPacket {
 
+    public static GET: string = 'GET';
+    public static POST: string = 'POST';
+    public static PUT: string = 'PUT';
+    public static DELETE: string = 'DELETE';
+
     constructor(method: string, route: string, params?: any) {
         super();
         this.packet.request = {
-            method: method || 'get',
+            method: method.toUpperCase(),
             route: route,
             params: params || {}
         };
@@ -75,7 +80,7 @@ export class DarkRequest extends DarkPacket {
     }
 
     /* @Override */
-    public decrypt(keyManager: any, encrypted: any): Promise<DarkRequest> {
+    public static decrypt(keyManager: any, encrypted: any): Promise<DarkRequest> {
         return new Promise((resolve, reject) => {
             super.decrypt(keyManager, encrypted).then((decrypted) => {
                 resolve(DarkRequest.parse(decrypted));
