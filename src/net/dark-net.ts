@@ -2,6 +2,9 @@
 import {DarkRequest} from "../protocol/dark-request";
 import {DarkResponse} from "../protocol/dark-response";
 
+/**
+ *
+ */
 export class DarkNet {
 
     private routes: any;
@@ -10,8 +13,7 @@ export class DarkNet {
         this.routes = {};
     }
 
-    // darkNet.registerRoute('get', 'check', (req) => { /* ... */ });
-    public registerRoute(method: string, route: string, callback: any): void {
+    public registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void {
         this.routes[method.toUpperCase()] = {};
         this.routes[method][route] = callback;
     }
@@ -24,7 +26,7 @@ export class DarkNet {
             if (!this.routes[request.getMethod()][request.getRoute()])
                 return reject();
 
-            let response: DarkResponse = this.routes[request.getMethod()][request.getRoute()](request).then((response) => {
+            this.routes[request.getMethod()][request.getRoute()](request).then((response) => {
                 resolve(response);
             }).catch((err) => {
                 reject(err);
