@@ -39,10 +39,10 @@ var DarkResponse = /** @class */ (function (_super) {
         return this;
     };
     /* @Override */
-    DarkResponse.prototype.decrypt = function (keyManager, encrypted) {
+    DarkResponse.decrypt = function (keyManager, encrypted) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _super.prototype.decrypt.call(_this, keyManager, encrypted).then(function (decrypted) {
+            _super.decrypt.call(_this, keyManager, encrypted).then(function (decrypted) {
                 resolve(DarkResponse.parse(decrypted));
             }).catch(function (err) {
                 reject(err);

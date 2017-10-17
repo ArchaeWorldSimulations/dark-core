@@ -26,7 +26,7 @@ var DarkPgp = /** @class */ (function () {
             }, function (err, encrypted) {
                 if (err)
                     return reject(err);
-                resolve({ msg: encrypted });
+                resolve(encrypted);
             });
         });
     };

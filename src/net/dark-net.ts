@@ -17,7 +17,6 @@ export class DarkNet {
     }
 
     public handleRequest(request: DarkRequest): Promise<DarkResponse> {
-
         return new Promise((resolve, reject) => {
             if (!this.routes[request.getMethod()])
                 return reject();

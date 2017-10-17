@@ -18,14 +18,14 @@ export class DarkPgp {
         });
     }
 
-    public static encrypt(to: any, body: any): Promise<any> {
+    public static encrypt(to: any, body: any): Promise<string> {
         return new Promise((resolve, reject) => {
             kbpgp.box({
                 encrypt_for: to,
                 msg: JSON.stringify(body)
             }, (err, encrypted) => {
                 if (err) return reject(err);
-                resolve({msg: encrypted});
+                resolve(encrypted);
             })
         });
     }

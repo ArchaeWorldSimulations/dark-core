@@ -45,10 +45,10 @@ var DarkPacket = /** @class */ (function () {
             });
         });
     };
-    DarkPacket.prototype.decrypt = function (keyManager, encrypted) {
+    DarkPacket.decrypt = function (keyManager, encrypted) {
         return new Promise(function (resolve, reject) {
-            dark_pgp_1.DarkPgp.decrypt(keyManager, encrypted.dark).then(function (decrypted) {
-                resolve(decrypted);
+            dark_pgp_1.DarkPgp.decrypt(keyManager, encrypted.dark || encrypted).then(function (decrypted) {
+                resolve(JSON.parse(decrypted));
             }).catch(function (err) {
                 reject(err);
             });

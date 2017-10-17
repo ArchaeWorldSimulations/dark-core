@@ -71,10 +71,10 @@ var DarkRequest = /** @class */ (function (_super) {
         return this;
     };
     /* @Override */
-    DarkRequest.prototype.decrypt = function (keyManager, encrypted) {
+    DarkRequest.decrypt = function (keyManager, encrypted) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _super.prototype.decrypt.call(_this, keyManager, encrypted).then(function (decrypted) {
+            _super.decrypt.call(_this, keyManager, encrypted).then(function (decrypted) {
                 resolve(DarkRequest.parse(decrypted));
             }).catch(function (err) {
                 reject(err);

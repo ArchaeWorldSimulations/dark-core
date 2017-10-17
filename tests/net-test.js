@@ -28,3 +28,58 @@ darkNet.handleRequest(parsedRequest).then(function (response) {
 }).catch(function (err) {
    console.log('Err', err);
 });
+
+/**
+ * Encryption tests
+ */
+
+//
+// Create keys for alice
+//
+DarkCore.DarkPgp.createKeys('alice').then(function (alice) {
+
+    //
+    // Create keys for chuck
+    //
+    DarkCore.DarkPgp.createKeys('chuck').then(function (chuck) {
+
+        //
+        // Encrypted our request for chuck
+        //
+        parsedRequest.encrypt(chuck).then(function (encryptedRequest) {
+
+            console.log('encrypted request', encryptedRequest);
+
+            //
+            // Pass our request to the handler to decrypt with chuck and encrypt response for alice
+            //
+            darkNet.handleEncryptedRequest(chuck, alice, encryptedRequest).then(function (encryptedResponse) {
+
+                console.log('encrypted response', encryptedResponse);
+
+                //
+                // Decrypt our response for alice
+                //
+                DarkCore.DarkResponse.decrypt(alice, encryptedResponse).then(function (decryptedResponse) {
+
+                    console.log('decrypted response', decryptedResponse.build());
+
+                    //
+                    // FINISHED!
+                    //
+
+                }).catch(function (err) {
+                    console.log('decrypt err', err);
+                });
+            }).catch(function (err) {
+                console.log('handleEncryptedRequest err', err);
+            });
+        }).catch(function (err) {
+           console.log('encrypt err', err);
+        });
+    }).catch(function (err) {
+        console.log('createKeys chuck err', err);
+    });
+}).catch(function (err) {
+    console.log('createKeys alice err', err);
+});
