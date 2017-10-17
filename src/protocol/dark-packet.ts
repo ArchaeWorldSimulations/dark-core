@@ -8,8 +8,22 @@ export class DarkPacket {
             headers: {},
             body: {},
         };
+    }
 
-        return this;
+    public getHeaders(): any {
+        return this.packet.headers;
+    }
+
+    public getHeader(name: string): any {
+        return this.packet.headers[name];
+    }
+
+    public hasHeader(name: string): boolean {
+        return !!this.packet.headers[name];
+    }
+
+    public getBody(): any {
+        return this.packet.body;
     }
 
     public setHeaders(headers: any): DarkPacket {
@@ -18,8 +32,8 @@ export class DarkPacket {
         return this;
     }
 
-    public addHeader(key: string, value: any): DarkPacket {
-        this.packet.headers[key] = value;
+    public addHeader(name: string, value: any): DarkPacket {
+        this.packet.headers[name] = value;
 
         return this;
     }

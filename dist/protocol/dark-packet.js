@@ -6,14 +6,25 @@ var DarkPacket = /** @class */ (function () {
             headers: {},
             body: {},
         };
-        return this;
     }
+    DarkPacket.prototype.getHeaders = function () {
+        return this.packet.headers;
+    };
+    DarkPacket.prototype.getHeader = function (name) {
+        return this.packet.headers[name];
+    };
+    DarkPacket.prototype.hasHeader = function (name) {
+        return !!this.packet.headers[name];
+    };
+    DarkPacket.prototype.getBody = function () {
+        return this.packet.body;
+    };
     DarkPacket.prototype.setHeaders = function (headers) {
         this.packet.headers = headers;
         return this;
     };
-    DarkPacket.prototype.addHeader = function (key, value) {
-        this.packet.headers[key] = value;
+    DarkPacket.prototype.addHeader = function (name, value) {
+        this.packet.headers[name] = value;
         return this;
     };
     DarkPacket.prototype.setBody = function (body) {

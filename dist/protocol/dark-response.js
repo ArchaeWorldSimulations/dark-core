@@ -20,6 +20,28 @@ var DarkResponse = /** @class */ (function (_super) {
         };
         return _this;
     }
+    DarkResponse.prototype.getStatus = function () {
+        return this.packet.response.status;
+    };
+    /* @Override */
+    DarkResponse.prototype.setHeaders = function (headers) {
+        _super.prototype.setHeaders.call(this, headers);
+        return this;
+    };
+    /* @Override */
+    DarkResponse.prototype.addHeader = function (name, value) {
+        _super.prototype.addHeader.call(this, name, value);
+        return this;
+    };
+    /* @Override */
+    DarkResponse.prototype.setBody = function (body) {
+        _super.prototype.setBody.call(this, body);
+        return this;
+    };
+    DarkResponse.parse = function (packet) {
+        return new DarkResponse(packet.response.status)
+            .setHeaders(packet.headers || {}).setBody(packet.body || {});
+    };
     return DarkResponse;
 }(dark_packet_1.DarkPacket));
 exports.DarkResponse = DarkResponse;

@@ -23,6 +23,30 @@ var DarkRequest = /** @class */ (function (_super) {
         _this.packet.files = {};
         return _this;
     }
+    DarkRequest.prototype.getMethod = function () {
+        return this.packet.request.method;
+    };
+    DarkRequest.prototype.getRoute = function () {
+        return this.packet.request.route;
+    };
+    DarkRequest.prototype.getParams = function () {
+        return this.packet.request.params;
+    };
+    DarkRequest.prototype.getParam = function (name) {
+        return this.packet.request.params[name];
+    };
+    DarkRequest.prototype.hasParam = function (name) {
+        return !!this.packet.request.params[name];
+    };
+    DarkRequest.prototype.getFiles = function () {
+        return this.packet.files;
+    };
+    DarkRequest.prototype.getFile = function (name) {
+        return this.packet.files[name];
+    };
+    DarkRequest.prototype.hasFile = function (name) {
+        return !!this.packet.files[name];
+    };
     DarkRequest.prototype.setFiles = function (files) {
         this.packet.files = files;
         return this;
@@ -30,6 +54,25 @@ var DarkRequest = /** @class */ (function (_super) {
     DarkRequest.prototype.addFile = function (name, content) {
         this.packet.files[name] = content;
         return this;
+    };
+    /* @Override */
+    DarkRequest.prototype.setHeaders = function (headers) {
+        _super.prototype.setHeaders.call(this, headers);
+        return this;
+    };
+    /* @Override */
+    DarkRequest.prototype.addHeader = function (name, value) {
+        _super.prototype.addHeader.call(this, name, value);
+        return this;
+    };
+    /* @Override */
+    DarkRequest.prototype.setBody = function (body) {
+        _super.prototype.setBody.call(this, body);
+        return this;
+    };
+    DarkRequest.parse = function (packet) {
+        return new DarkRequest(packet.request.method, packet.request.route, packet.request.params || {})
+            .setFiles(packet.files || {}).setHeaders(packet.headers || {}).setBody(packet.body || {});
     };
     return DarkRequest;
 }(dark_packet_1.DarkPacket));
