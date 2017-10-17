@@ -13,6 +13,7 @@ darkNet.registerRoute('get', 'test', function (req) {
 
 // Create a dummy request and "build" it into an object
 var request = new DarkCore.DarkRequest('get', 'test').build();
+console.log('request', request);
 
 // Parse the object back to a DarkRequest
 var parsedRequest = DarkCore.DarkRequest.parse(request);

@@ -74,6 +74,17 @@ export class DarkRequest extends DarkPacket {
         return this;
     }
 
+    /* @Override */
+    public decrypt(keyManager: any, encrypted: any): Promise<DarkRequest> {
+        return new Promise((resolve, reject) => {
+            super.decrypt(keyManager, encrypted).then((decrypted) => {
+                resolve(DarkRequest.parse(decrypted));
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
     public static parse(packet: any): DarkRequest {
         return new DarkRequest(packet.request.method, packet.request.route, packet.request.params || {})
             .setFiles(packet.files || {}).setHeaders(packet.headers || {}).setBody(packet.body || {});

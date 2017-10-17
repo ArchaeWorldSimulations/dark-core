@@ -32,6 +32,17 @@ export class DarkResponse extends DarkPacket {
         return this;
     }
 
+    /* @Override */
+    public decrypt(keyManager: any, encrypted: any): Promise<DarkResponse> {
+        return new Promise((resolve, reject) => {
+            super.decrypt(keyManager, encrypted).then((decrypted) => {
+                resolve(DarkResponse.parse(decrypted));
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
     public static parse(packet: any): DarkResponse {
         return new DarkResponse(packet.response.status)
             .setHeaders(packet.headers || {}).setBody(packet.body || {});
