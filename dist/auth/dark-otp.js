@@ -4,7 +4,6 @@ var notp = require("notp");
 var DarkOtp = /** @class */ (function () {
     function DarkOtp() {
     }
-
     DarkOtp.generateToken = function (key) {
         return notp.totp.gen(key);
     };

@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", {value: true});
 var DarkJwt = /** @class */ (function () {
     function DarkJwt() {
     }
-
     return DarkJwt;
 }());
 exports.DarkJwt = DarkJwt;
