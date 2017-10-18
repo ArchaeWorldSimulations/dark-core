@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "dark-jwt.js",
+  "sourceRoot": "",
+  "sources": [
+    "../../src/auth/dark-jwt.ts"
+  ],
+  "names": [],
+  "mappings": ";;AACA;IACI;IAAe,CAAC;IACpB,cAAC;AAAD,CAAC,AAFD,IAEC;AAFY,0BAAO"
+}
