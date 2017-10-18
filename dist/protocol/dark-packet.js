@@ -39,7 +39,7 @@ var DarkPacket = /** @class */ (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             dark_pgp_1.DarkPgp.encrypt(to, _this.build()).then(function (encrypted) {
-                resolve({ dark: encrypted });
+                resolve({ dtp: encrypted });
             }).catch(function (err) {
                 reject(err);
             });
@@ -47,7 +47,7 @@ var DarkPacket = /** @class */ (function () {
     };
     DarkPacket.decrypt = function (keyManager, encrypted) {
         return new Promise(function (resolve, reject) {
-            dark_pgp_1.DarkPgp.decrypt(keyManager, encrypted.dark || encrypted).then(function (decrypted) {
+            dark_pgp_1.DarkPgp.decrypt(keyManager, encrypted.dtp || encrypted).then(function (decrypted) {
                 resolve(JSON.parse(decrypted));
             }).catch(function (err) {
                 reject(err);

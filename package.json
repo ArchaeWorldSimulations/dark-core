@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/ArchaeWorldSimulations/dark-core#readme",
   "dependencies": {
+    "jsonwebtoken": "^8.1.0",
     "kbpgp": "^2.0.74",
+    "notp": "^2.0.3",
     "promise": "^8.0.1"
   },
   "devDependencies": {

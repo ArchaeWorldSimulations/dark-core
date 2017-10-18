@@ -54,7 +54,7 @@ export class DarkPacket {
     public encrypt(to: any): Promise<any> {
         return new Promise((resolve, reject) => {
             DarkPgp.encrypt(to, this.build()).then((encrypted) => {
-                resolve({dark: encrypted});
+                resolve({dtp: encrypted});
             }).catch((err) => {
                 reject(err);
             });
@@ -63,7 +63,7 @@ export class DarkPacket {
 
     public static decrypt(keyManager: any, encrypted: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            DarkPgp.decrypt(keyManager, encrypted.dark || encrypted).then((decrypted) => {
+            DarkPgp.decrypt(keyManager, encrypted.dtp || encrypted).then((decrypted) => {
                 resolve(JSON.parse(decrypted));
             }).catch((err) => {
                reject(err);
