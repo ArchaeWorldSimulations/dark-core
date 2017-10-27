@@ -6,6 +6,11 @@ export class DarkPgp {
     constructor() {
     }
 
+    /**
+     * Created a key pair for a user
+     * @param {string} username
+     * @returns {Promise<any>}
+     */
     public static createKeys(username: string): Promise<any> {
         return new Promise((resolve, reject) => {
             kbpgp.KeyManager.generate_ecc({userid: username}, (err, keyPair) => {
@@ -18,6 +23,12 @@ export class DarkPgp {
         });
     }
 
+    /**
+     * Encrypt an object with a public key
+     * @param to the public key of the recipient
+     * @param body the object to encrypt
+     * @returns {Promise<string>}
+     */
     public static encrypt(to: any, body: any): Promise<string> {
         return new Promise((resolve, reject) => {
             kbpgp.box({
@@ -30,11 +41,17 @@ export class DarkPgp {
         });
     }
 
+    /**
+     * Decrypt a message
+     * @param keyManager an imported private key
+     * @param {string} message
+     * @returns {Promise<any>}
+     */
     public static decrypt(keyManager: any, message: string): Promise<any> {
         return new Promise((resolve, reject) => {
             kbpgp.unbox({keyfetch: keyManager, armored: message}, (err, literals) => {
                 if (err) return reject(err);
-                resolve(literals[0].toString());
+                resolve(JSON.parse(literals[0].toString()));
             });
         });
     }

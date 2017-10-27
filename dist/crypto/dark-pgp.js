@@ -5,6 +5,12 @@ var kbpgp = require("kbpgp");
 var DarkPgp = /** @class */ (function () {
     function DarkPgp() {
     }
+
+    /**
+     * Created a key pair for a user
+     * @param {string} username
+     * @returns {Promise<any>}
+     */
     DarkPgp.createKeys = function (username) {
         return new Promise(function (resolve, reject) {
             kbpgp.KeyManager.generate_ecc({ userid: username }, function (err, keyPair) {
@@ -18,6 +24,12 @@ var DarkPgp = /** @class */ (function () {
             });
         });
     };
+    /**
+     * Encrypt an object with a public key
+     * @param to the public key of the recipient
+     * @param body the object to encrypt
+     * @returns {Promise<string>}
+     */
     DarkPgp.encrypt = function (to, body) {
         return new Promise(function (resolve, reject) {
             kbpgp.box({
@@ -30,12 +42,18 @@ var DarkPgp = /** @class */ (function () {
             });
         });
     };
+    /**
+     * Decrypt a message
+     * @param keyManager an imported private key
+     * @param {string} message
+     * @returns {Promise<any>}
+     */
     DarkPgp.decrypt = function (keyManager, message) {
         return new Promise(function (resolve, reject) {
             kbpgp.unbox({ keyfetch: keyManager, armored: message }, function (err, literals) {
                 if (err)
                     return reject(err);
-                resolve(literals[0].toString());
+                resolve(JSON.parse(literals[0].toString()));
             });
         });
     };
