@@ -1,4 +1,4 @@
-var DarkRequest = require('../dist/index').DarkRequest;
+var DarkRequest = require('..').DarkRequest;
 
 var testRequest1 = new DarkRequest('get', 'handle', {param1: 'a'}).addHeader('auth-token', 'abc').build();
 var testRequest2 = new DarkRequest('get', 'handle').build();

@@ -1,4 +1,4 @@
-var DarkCore = require('../index');
+var DarkCore = require('..');
 
 // Create a new DarkNet instance
 var darkNet = new DarkCore.DarkNet();

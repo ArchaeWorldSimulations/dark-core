@@ -1,4 +1,4 @@
-var DarkPgp = require('../index').DarkPgp;
+var DarkPgp = require('..').DarkPgp;
 
 DarkPgp.createKeys('testuser').then(function (keyManager) {
     DarkPgp.exportPublicKey(keyManager).then(function (exportedKey) {
