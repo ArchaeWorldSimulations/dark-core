@@ -1,13 +1,11 @@
 export declare class DarkPgp {
     constructor();
-
     /**
      * Created a key pair for a user
      * @param {string} username
      * @returns {Promise<any>}
      */
     static createKeys(username: string): Promise<any>;
-
     /**
      * Encrypt an object with a public key
      * @param to the public key of the recipient
@@ -15,7 +13,6 @@ export declare class DarkPgp {
      * @returns {Promise<string>}
      */
     static encrypt(to: any, body: any): Promise<string>;
-
     /**
      * Decrypt a message
      * @param keyManager an imported private key

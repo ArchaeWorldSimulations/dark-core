@@ -5,7 +5,6 @@ var kbpgp = require("kbpgp");
 var DarkPgp = /** @class */ (function () {
     function DarkPgp() {
     }
-
     /**
      * Created a key pair for a user
      * @param {string} username
