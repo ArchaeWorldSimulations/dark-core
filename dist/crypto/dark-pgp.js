@@ -29,11 +29,11 @@ var DarkPgp = /** @class */ (function () {
      * @param body the object to encrypt
      * @returns {Promise<string>}
      */
-    DarkPgp.encrypt = function (to, body) {
+    DarkPgp.encrypt = function (to, message) {
         return new Promise(function (resolve, reject) {
             kbpgp.box({
                 encrypt_for: to,
-                msg: JSON.stringify(body)
+                msg: message
             }, function (err, encrypted) {
                 if (err)
                     return reject(err);
@@ -52,7 +52,7 @@ var DarkPgp = /** @class */ (function () {
             kbpgp.unbox({ keyfetch: keyManager, armored: message }, function (err, literals) {
                 if (err)
                     return reject(err);
-                resolve(JSON.parse(literals[0].toString()));
+                resolve(literals[0].toString());
             });
         });
     };

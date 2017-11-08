@@ -38,7 +38,7 @@ var DarkPacket = /** @class */ (function () {
     DarkPacket.prototype.encrypt = function (to) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            dark_pgp_1.DarkPgp.encrypt(to, _this.build()).then(function (encrypted) {
+            dark_pgp_1.DarkPgp.encrypt(to, JSON.stringify(_this.build())).then(function (encrypted) {
                 resolve({ dtp: encrypted });
             }).catch(function (err) {
                 reject(err);

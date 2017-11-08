@@ -12,7 +12,7 @@ export declare class DarkPgp {
      * @param body the object to encrypt
      * @returns {Promise<string>}
      */
-    static encrypt(to: any, body: any): Promise<string>;
+    static encrypt(to: any, message: string): Promise<string>;
     /**
      * Decrypt a message
      * @param keyManager an imported private key

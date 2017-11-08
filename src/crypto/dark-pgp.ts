@@ -29,11 +29,11 @@ export class DarkPgp {
      * @param body the object to encrypt
      * @returns {Promise<string>}
      */
-    public static encrypt(to: any, body: any): Promise<string> {
+    public static encrypt(to: any, message: string): Promise<string> {
         return new Promise((resolve, reject) => {
             kbpgp.box({
                 encrypt_for: to,
-                msg: JSON.stringify(body)
+                msg: message
             }, (err, encrypted) => {
                 if (err) return reject(err);
                 resolve(encrypted);
@@ -51,7 +51,7 @@ export class DarkPgp {
         return new Promise((resolve, reject) => {
             kbpgp.unbox({keyfetch: keyManager, armored: message}, (err, literals) => {
                 if (err) return reject(err);
-                resolve(JSON.parse(literals[0].toString()));
+                resolve(literals[0].toString());
             });
         });
     }

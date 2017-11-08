@@ -53,7 +53,7 @@ export class DarkPacket {
 
     public encrypt(to: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            DarkPgp.encrypt(to, this.build()).then((encrypted) => {
+            DarkPgp.encrypt(to, JSON.stringify(this.build())).then((encrypted) => {
                 resolve({dtp: encrypted});
             }).catch((err) => {
                 reject(err);
