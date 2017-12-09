@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "dark-filter.js",
+  "sourceRoot": "",
+  "sources": [
+    "../../src/net/dark-filter.ts"
+  ],
+  "names": [],
+  "mappings": ""
+}

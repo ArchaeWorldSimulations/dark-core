@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "ipacket.js",
+  "sourceRoot": "",
+  "sources": [
+    "../../src/protocol/ipacket.ts"
+  ],
+  "names": [],
+  "mappings": ""
+}

@@ -11,7 +11,6 @@ var DarkPacket = /** @class */ (function () {
             body: {},
         };
     }
-
     DarkPacket.prototype.getHeaders = function () {
         return this.packet.headers;
     };
@@ -39,9 +38,6 @@ var DarkPacket = /** @class */ (function () {
     DarkPacket.prototype.build = function () {
         return {dtp: this.packet};
     };
-    DarkPacket.prototype.getPacket = function () {
-        return this.packet;
-    };
     DarkPacket.prototype.encrypt = function (to) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -51,6 +47,9 @@ var DarkPacket = /** @class */ (function () {
                 reject(err);
             });
         });
+    };
+    DarkPacket.prototype.getPacket = function () {
+        return this.packet;
     };
     DarkPacket.decrypt = function (keyManager, encrypted) {
         return new Promise(function (resolve, reject) {

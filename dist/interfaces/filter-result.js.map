@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "filter-result.js",
+  "sourceRoot": "",
+  "sources": [
+    "../../src/interfaces/filter-result.ts"
+  ],
+  "names": [],
+  "mappings": ""
+}
