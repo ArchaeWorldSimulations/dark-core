@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var dark_pgp_1 = require("../crypto/dark-pgp");
+/**
+ *
+ */
 var DarkPacket = /** @class */ (function () {
     function DarkPacket() {
         this.packet = {
@@ -8,6 +11,7 @@ var DarkPacket = /** @class */ (function () {
             body: {},
         };
     }
+
     DarkPacket.prototype.getHeaders = function () {
         return this.packet.headers;
     };
@@ -33,12 +37,15 @@ var DarkPacket = /** @class */ (function () {
         return this;
     };
     DarkPacket.prototype.build = function () {
+        return {dtp: this.packet};
+    };
+    DarkPacket.prototype.getPacket = function () {
         return this.packet;
     };
     DarkPacket.prototype.encrypt = function (to) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            dark_pgp_1.DarkPgp.encrypt(to, JSON.stringify(_this.build())).then(function (encrypted) {
+            dark_pgp_1.DarkPgp.encrypt(to, JSON.stringify(_this.getPacket())).then(function (encrypted) {
                 resolve({ dtp: encrypted });
             }).catch(function (err) {
                 reject(err);

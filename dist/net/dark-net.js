@@ -26,16 +26,12 @@ var DarkNet = /** @class */ (function () {
             });
         });
     };
-    DarkNet.prototype.handleEncryptedRequest = function (keyManager, to, request) {
+    DarkNet.prototype.handleEncryptedRequest = function (keyManager, request) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             dark_request_1.DarkRequest.decrypt(keyManager, request).then(function (decrypted) {
                 _this.handleRequest(decrypted).then(function (response) {
-                    response.encrypt(to).then(function (encryptedResponse) {
-                        resolve(encryptedResponse);
-                    }).catch(function (err) {
-                        reject(err);
-                    });
+                    resolve(response);
                 }).catch(function (err) {
                     reject(err);
                 });

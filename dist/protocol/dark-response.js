@@ -50,8 +50,9 @@ var DarkResponse = /** @class */ (function (_super) {
         });
     };
     DarkResponse.parse = function (packet) {
-        return new DarkResponse(packet.response.status)
-            .setHeaders(packet.headers || {}).setBody(packet.body || {});
+        var p = packet.dtp || packet;
+        return new DarkResponse(p.response.status)
+            .setHeaders(p.headers || {}).setBody(p.body || {});
     };
     return DarkResponse;
 }(dark_packet_1.DarkPacket));

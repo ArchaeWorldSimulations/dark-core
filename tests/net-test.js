@@ -5,6 +5,7 @@ var darkNet = new DarkCore.DarkNet();
 
 // Register a route handler, the handler must return a promise that resolves a DarkResponse
 darkNet.registerRoute(DarkCore.DarkRequest.GET, 'test', function (req) {
+    console.log('GET test', req);
     return new Promise(function (resolve, reject) {
         var response = new DarkCore.DarkResponse(200).addHeader('test', 'good!').setBody({
             handled: true

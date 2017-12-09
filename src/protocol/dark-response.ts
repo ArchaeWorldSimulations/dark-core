@@ -44,7 +44,8 @@ export class DarkResponse extends DarkPacket {
     }
 
     public static parse(packet: any): DarkResponse {
-        return new DarkResponse(packet.response.status)
-            .setHeaders(packet.headers || {}).setBody(packet.body || {});
+        let p = packet.dtp || packet;
+        return new DarkResponse(p.response.status)
+            .setHeaders(p.headers || {}).setBody(p.body || {});
     }
 }

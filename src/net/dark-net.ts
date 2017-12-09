@@ -34,15 +34,11 @@ export class DarkNet {
         });
     }
 
-    public handleEncryptedRequest(keyManager: any, to: any, request: any): Promise<any> {
+    public handleEncryptedRequest(keyManager: any, request: any): Promise<any> {
         return new Promise((resolve, reject) => {
             DarkRequest.decrypt(keyManager, request).then((decrypted) => {
                 this.handleRequest(decrypted).then((response) => {
-                    response.encrypt(to).then((encryptedResponse) => {
-                        resolve(encryptedResponse);
-                    }).catch((err) => {
-                        reject(err);
-                    })
+                    resolve(response);
                 }).catch((err) => {
                     reject(err);
                 });

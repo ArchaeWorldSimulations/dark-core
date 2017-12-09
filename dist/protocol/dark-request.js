@@ -82,8 +82,9 @@ var DarkRequest = /** @class */ (function (_super) {
         });
     };
     DarkRequest.parse = function (packet) {
-        return new DarkRequest(packet.request.method, packet.request.route, packet.request.params || {})
-            .setFiles(packet.files || {}).setHeaders(packet.headers || {}).setBody(packet.body || {});
+        var p = packet.dtp || packet;
+        return new DarkRequest(p.request.method, p.request.route, p.request.params || {})
+            .setFiles(p.files || {}).setHeaders(p.headers || {}).setBody(p.body || {});
     };
     DarkRequest.GET = 'GET';
     DarkRequest.POST = 'POST';

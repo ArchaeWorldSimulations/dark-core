@@ -1,6 +1,10 @@
 
 import {DarkPgp} from "../crypto/dark-pgp";
+import {IPacket} from "./ipacket";
 
+/**
+ *
+ */
 export class DarkPacket {
 
     protected packet: any;
@@ -47,13 +51,13 @@ export class DarkPacket {
     }
 
 
-    public build(): any {
-        return this.packet;
+    public build(): IPacket {
+        return {dtp: this.packet};
     }
 
-    public encrypt(to: any): Promise<any> {
+    public encrypt(to: any): Promise<IPacket> {
         return new Promise((resolve, reject) => {
-            DarkPgp.encrypt(to, JSON.stringify(this.build())).then((encrypted) => {
+            DarkPgp.encrypt(to, JSON.stringify(this.getPacket())).then((encrypted) => {
                 resolve({dtp: encrypted});
             }).catch((err) => {
                 reject(err);
@@ -61,12 +65,16 @@ export class DarkPacket {
         });
     }
 
+    protected getPacket(): any {
+        return this.packet;
+    }
+
     public static decrypt(keyManager: any, encrypted: any): Promise<any> {
         return new Promise((resolve, reject) => {
             DarkPgp.decrypt(keyManager, encrypted.dtp || encrypted).then((decrypted) => {
                 resolve(JSON.parse(decrypted));
             }).catch((err) => {
-               reject(err);
+                reject(err);
             });
         });
     }

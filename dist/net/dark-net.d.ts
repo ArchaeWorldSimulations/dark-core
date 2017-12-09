@@ -8,5 +8,6 @@ export declare class DarkNet {
     constructor();
     registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void;
     handleRequest(request: DarkRequest): Promise<DarkResponse>;
-    handleEncryptedRequest(keyManager: any, to: any, request: any): Promise<any>;
+
+    handleEncryptedRequest(keyManager: any, request: any): Promise<any>;
 }

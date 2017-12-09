@@ -91,7 +91,8 @@ export class DarkRequest extends DarkPacket {
     }
 
     public static parse(packet: any): DarkRequest {
-        return new DarkRequest(packet.request.method, packet.request.route, packet.request.params || {})
-            .setFiles(packet.files || {}).setHeaders(packet.headers || {}).setBody(packet.body || {});
+        let p = packet.dtp || packet;
+        return new DarkRequest(p.request.method, p.request.route, p.request.params || {})
+            .setFiles(p.files || {}).setHeaders(p.headers || {}).setBody(p.body || {});
     }
 }
