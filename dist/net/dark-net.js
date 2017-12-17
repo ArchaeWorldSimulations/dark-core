@@ -9,26 +9,11 @@ var DarkNet = /** @class */ (function () {
         this.routes = {};
         this.filters = [];
     }
-
     DarkNet.prototype.registerFilter = function (filter) {
         this.filters.push(filter);
         this.filters.sort(function (a, b) {
             return a.filterOrder() > b.filterOrder() ? 1 : b.filterOrder() > a.filterOrder() ? -1 : 0;
         });
-    };
-    DarkNet.prototype.runFilters = function (request, type) {
-        if (!type)
-            type = 'pre';
-        for (var i = 0; i < this.filters.length; ++i) {
-            if (this.filters[i].filterType() !== type)
-                continue;
-            if (this.filters[i].shouldFilter(request)) {
-                if (!this.filters[i].run(request)) {
-                    return {success: false, filterName: this.filters[i].constructor.name};
-                }
-            }
-        }
-        return {success: true};
     };
     DarkNet.prototype.registerRoute = function (method, route, callback) {
         if (!this.routes[method.toUpperCase()])
@@ -52,6 +37,20 @@ var DarkNet = /** @class */ (function () {
                 reject(err);
             });
         });
+    };
+    DarkNet.prototype.runFilters = function (request, type) {
+        if (!type)
+            type = 'pre';
+        for (var i = 0; i < this.filters.length; ++i) {
+            if (this.filters[i].filterType() !== type)
+                continue;
+            if (this.filters[i].shouldFilter(request)) {
+                if (!this.filters[i].run(request)) {
+                    return {success: false, filterName: this.filters[i].constructor.name};
+                }
+            }
+        }
+        return {success: true};
     };
     DarkNet.prototype.handleEncryptedRequest = function (keyManager, request) {
         var _this = this;

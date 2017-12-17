@@ -6,5 +6,5 @@ export interface DarkFilter {
 
     shouldFilter(request: DarkRequest): boolean;
 
-    run(request: DarkRequest): boolean;
+    run(request: DarkRequest): Promise<boolean>;
 }
