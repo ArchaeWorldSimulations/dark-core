@@ -9,49 +9,47 @@ import {FilterResult} from "../interfaces/filter-result";
  */
 export class DarkNet {
 
-    private routes: any;
-    private filters: Array<DarkFilter>;
+    private static routes: any = {};
+    private static filters: Array<DarkFilter> = [];
 
     constructor() {
-        this.routes = {};
-        this.filters = [];
     }
 
-    public registerFilter(filter: DarkFilter): void {
-        this.filters.push(filter);
+    public static registerFilter(filter: DarkFilter): void {
+        DarkNet.filters.push(filter);
 
-        /*this.filters.sort((a, b) => {
+        /*DarkNet.filters.sort((a, b) => {
             return a.filterOrder() > b.filterOrder() ? 1 : b.filterOrder() > a.filterOrder() ? -1 : 0;
         });*/
     }
 
-    public registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void {
-        if (!this.routes[method.toUpperCase()]) {
+    public static registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void {
+        if (!DarkNet.routes[method.toUpperCase()]) {
             console.log('Creating method holder', method);
-            this.routes[method.toUpperCase()] = {};
+            DarkNet.routes[method.toUpperCase()] = {};
         }
         console.log('Adding route', route);
-        this.routes[method][route] = callback;
+        DarkNet.routes[method][route] = callback;
     }
 
-    public handleRequest(request: DarkRequest): Promise<DarkResponse> {
+    public static handleRequest(request: DarkRequest): Promise<DarkResponse> {
         console.log('handleRequest', request.build());
         return new Promise((resolve, reject) => {
 
             console.log('runFilters');
-            this.runFilters(request).then(() => {
+            DarkNet.runFilters(request).then(() => {
                 console.log('runFilters resolved');
-                if (!this.routes[request.getMethod()]) {
+                if (!DarkNet.routes[request.getMethod()]) {
                     console.log('Method not registered', request.getMethod());
                     return reject();
                 }
 
-                if (!this.routes[request.getMethod()][request.getRoute()]) {
+                if (!DarkNet.routes[request.getMethod()][request.getRoute()]) {
                     console.log('Route not registered');
                     return reject();
                 }
 
-                this.routes[request.getMethod()][request.getRoute()](request).then((response) => {
+                DarkNet.routes[request.getMethod()][request.getRoute()](request).then((response) => {
                     resolve(response);
                 }).catch((err) => {
                     console.log('Route rejected');
@@ -66,16 +64,30 @@ export class DarkNet {
         });
     }
 
-    private runFilters(request: DarkRequest): Promise<FilterResult> {
+    public static handleEncryptedRequest(keyManager: any, request: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            DarkRequest.decrypt(keyManager, request).then((decrypted) => {
+                DarkNet.handleRequest(decrypted).then((response) => {
+                    resolve(response);
+                }).catch((err) => {
+                    reject(err);
+                });
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    private static runFilters(request: DarkRequest): Promise<FilterResult> {
 
         return new Promise<FilterResult>((resolve, reject) => {
 
             let toRun: Array<Promise<FilterResult>> = [];
 
-            for (let i = 0; i < this.filters.length; ++i) {
-                if (this.filters[i].shouldFilter(request)) {
+            for (let i = 0; i < DarkNet.filters.length; ++i) {
+                if (DarkNet.filters[i].shouldFilter(request)) {
                     console.log('Push filter promise');
-                    toRun.push(this.filters[i].run(request));
+                    toRun.push(DarkNet.filters[i].run(request));
                 }
             }
 
@@ -89,20 +101,6 @@ export class DarkNet {
                     }
                 }
                 resolve({success: true});
-            });
-        });
-    }
-
-    public handleEncryptedRequest(keyManager: any, request: any): Promise<any> {
-        return new Promise((resolve, reject) => {
-            DarkRequest.decrypt(keyManager, request).then((decrypted) => {
-                this.handleRequest(decrypted).then((response) => {
-                    resolve(response);
-                }).catch((err) => {
-                    reject(err);
-                });
-            }).catch((err) => {
-                reject(err);
             });
         });
     }
