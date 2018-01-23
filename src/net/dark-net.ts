@@ -38,15 +38,20 @@ export class DarkNet {
             console.log('runFilters');
             this.runFilters(request).then(() => {
                 console.log('runFilters resolved');
-                if (!this.routes[request.getMethod()])
+                if (!this.routes[request.getMethod()]) {
+                    console.log('Method not registered');
                     return reject();
+                }
 
-                if (!this.routes[request.getMethod()][request.getRoute()])
+                if (!this.routes[request.getMethod()][request.getRoute()]) {
+                    console.log('Route not registered');
                     return reject();
+                }
 
                 this.routes[request.getMethod()][request.getRoute()](request).then((response) => {
                     resolve(response);
                 }).catch((err) => {
+                    console.log('Route rejected');
                     reject(err);
                 });
 

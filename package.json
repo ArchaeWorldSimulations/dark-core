@@ -1,6 +1,6 @@
 {
   "name": "dark-core",
-  "version": "1.0.10",
+  "version": "1.0.11t",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
