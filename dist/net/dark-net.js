@@ -9,6 +9,10 @@ var DarkNet = /** @class */ (function () {
         this.routes = {};
         this.filters = [];
     }
+
+    DarkNet.getInstance = function () {
+        return this._instance;
+    };
     DarkNet.prototype.registerFilter = function (filter) {
         this.filters.push(filter);
         /*this.filters.sort((a, b) => {
@@ -50,6 +54,20 @@ var DarkNet = /** @class */ (function () {
             });
         });
     };
+    DarkNet.prototype.handleEncryptedRequest = function (keyManager, request) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            dark_request_1.DarkRequest.decrypt(keyManager, request).then(function (decrypted) {
+                _this.handleRequest(decrypted).then(function (response) {
+                    resolve(response);
+                }).catch(function (err) {
+                    reject(err);
+                });
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    };
     DarkNet.prototype.runFilters = function (request) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -72,20 +90,7 @@ var DarkNet = /** @class */ (function () {
             });
         });
     };
-    DarkNet.prototype.handleEncryptedRequest = function (keyManager, request) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            dark_request_1.DarkRequest.decrypt(keyManager, request).then(function (decrypted) {
-                _this.handleRequest(decrypted).then(function (response) {
-                    resolve(response);
-                }).catch(function (err) {
-                    reject(err);
-                });
-            }).catch(function (err) {
-                reject(err);
-            });
-        });
-    };
+    DarkNet._instance = new DarkNet();
     return DarkNet;
 }());
 exports.DarkNet = DarkNet;
