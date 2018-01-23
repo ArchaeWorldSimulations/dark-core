@@ -12,6 +12,6 @@ export declare class DarkNet {
     registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void;
     handleRequest(request: DarkRequest): Promise<DarkResponse>;
 
-    private runFilters(request, type?);
+    private runFilters(request);
     handleEncryptedRequest(keyManager: any, request: any): Promise<any>;
 }

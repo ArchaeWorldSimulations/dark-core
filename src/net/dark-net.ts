@@ -34,39 +34,50 @@ export class DarkNet {
     public handleRequest(request: DarkRequest): Promise<DarkResponse> {
         return new Promise((resolve, reject) => {
 
-            let filterResult: FilterResult = this.runFilters(request, 'pre');
-            if (!filterResult.success) {
-                return reject(filterResult);
-            }
+            this.runFilters(request).then(() => {
 
-            if (!this.routes[request.getMethod()])
-                return reject();
+                if (!this.routes[request.getMethod()])
+                    return reject();
 
-            if (!this.routes[request.getMethod()][request.getRoute()])
-                return reject();
+                if (!this.routes[request.getMethod()][request.getRoute()])
+                    return reject();
 
-            this.routes[request.getMethod()][request.getRoute()](request).then((response) => {
-                resolve(response);
-            }).catch((err) => {
-                reject(err);
+                this.routes[request.getMethod()][request.getRoute()](request).then((response) => {
+                    resolve(response);
+                }).catch((err) => {
+                    reject(err);
+                });
+
+            }).catch((result) => {
+                reject(result);
             });
+
         });
     }
 
-    private runFilters(request: DarkRequest, type?: string): FilterResult {
-        if (!type)
-            type = 'pre';
-        for (let i = 0; i < this.filters.length; ++i) {
-            if (this.filters[i].filterType() !== type)
-                continue;
-            if (this.filters[i].shouldFilter(request)) {
-                if (!this.filters[i].run(request)) {
-                    return {success: false, filterName: this.filters[i].constructor.name};
+    private runFilters(request: DarkRequest): Promise<FilterResult> {
+
+        return new Promise<FilterResult>((resolve, reject) => {
+
+            let toRun: Array<Promise<FilterResult>> = [];
+
+            for (let i = 0; i < this.filters.length; ++i) {
+                if (this.filters[i].shouldFilter(request)) {
+                    toRun.push(this.filters[i].run(request));
                 }
             }
-        }
 
-        return {success: true};
+
+            Promise.all(toRun).then((values) => {
+                for (let i = 0; i < values.length; ++i) {
+                    console.log(values[i].filterName, values[i].success);
+                    if (!values[i].success) {
+                        return reject({filterName: values[i].filterName, success: values[i].success});
+                    }
+                }
+                resolve({success: true});
+            });
+        });
     }
 
     public handleEncryptedRequest(keyManager: any, request: any): Promise<any> {

@@ -23,34 +23,40 @@ var DarkNet = /** @class */ (function () {
     DarkNet.prototype.handleRequest = function (request) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var filterResult = _this.runFilters(request, 'pre');
-            if (!filterResult.success) {
-                return reject(filterResult);
-            }
-            if (!_this.routes[request.getMethod()])
-                return reject();
-            if (!_this.routes[request.getMethod()][request.getRoute()])
-                return reject();
-            _this.routes[request.getMethod()][request.getRoute()](request).then(function (response) {
-                resolve(response);
-            }).catch(function (err) {
-                reject(err);
+            _this.runFilters(request).then(function () {
+                if (!_this.routes[request.getMethod()])
+                    return reject();
+                if (!_this.routes[request.getMethod()][request.getRoute()])
+                    return reject();
+                _this.routes[request.getMethod()][request.getRoute()](request).then(function (response) {
+                    resolve(response);
+                }).catch(function (err) {
+                    reject(err);
+                });
+            }).catch(function (result) {
+                reject(result);
             });
         });
     };
-    DarkNet.prototype.runFilters = function (request, type) {
-        if (!type)
-            type = 'pre';
-        for (var i = 0; i < this.filters.length; ++i) {
-            if (this.filters[i].filterType() !== type)
-                continue;
-            if (this.filters[i].shouldFilter(request)) {
-                if (!this.filters[i].run(request)) {
-                    return {success: false, filterName: this.filters[i].constructor.name};
+    DarkNet.prototype.runFilters = function (request) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var toRun = [];
+            for (var i = 0; i < _this.filters.length; ++i) {
+                if (_this.filters[i].shouldFilter(request)) {
+                    toRun.push(_this.filters[i].run(request));
                 }
             }
-        }
-        return {success: true};
+            Promise.all(toRun).then(function (values) {
+                for (var i = 0; i < values.length; ++i) {
+                    console.log(values[i].filterName, values[i].success);
+                    if (!values[i].success) {
+                        return reject({filterName: values[i].filterName, success: values[i].success});
+                    }
+                }
+                resolve({success: true});
+            });
+        });
     };
     DarkNet.prototype.handleEncryptedRequest = function (keyManager, request) {
         var _this = this;
