@@ -28,7 +28,7 @@ var DarkNet = /** @class */ (function () {
             _this.runFilters(request).then(function () {
                 console.log('runFilters resolved');
                 if (!_this.routes[request.getMethod()]) {
-                    console.log('Method not registered');
+                    console.log('Method not registered', request.getMethod());
                     return reject();
                 }
                 if (!_this.routes[request.getMethod()][request.getRoute()]) {
