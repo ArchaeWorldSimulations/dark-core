@@ -27,13 +27,18 @@ var DarkNet = /** @class */ (function () {
             console.log('runFilters');
             _this.runFilters(request).then(function () {
                 console.log('runFilters resolved');
-                if (!_this.routes[request.getMethod()])
+                if (!_this.routes[request.getMethod()]) {
+                    console.log('Method not registered');
                     return reject();
-                if (!_this.routes[request.getMethod()][request.getRoute()])
+                }
+                if (!_this.routes[request.getMethod()][request.getRoute()]) {
+                    console.log('Route not registered');
                     return reject();
+                }
                 _this.routes[request.getMethod()][request.getRoute()](request).then(function (response) {
                     resolve(response);
                 }).catch(function (err) {
+                    console.log('Route rejected');
                     reject(err);
                 });
             }).catch(function (result) {
