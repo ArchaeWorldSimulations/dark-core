@@ -39,7 +39,7 @@ export class DarkNet {
             this.runFilters(request).then(() => {
                 console.log('runFilters resolved');
                 if (!this.routes[request.getMethod()]) {
-                    console.log('Method not registered');
+                    console.log('Method not registered', request.getMethod());
                     return reject();
                 }
 
