@@ -11,9 +11,9 @@ var DarkNet = /** @class */ (function () {
     }
     DarkNet.prototype.registerFilter = function (filter) {
         this.filters.push(filter);
-        this.filters.sort(function (a, b) {
+        /*this.filters.sort((a, b) => {
             return a.filterOrder() > b.filterOrder() ? 1 : b.filterOrder() > a.filterOrder() ? -1 : 0;
-        });
+        });*/
     };
     DarkNet.prototype.registerRoute = function (method, route, callback) {
         if (!this.routes[method.toUpperCase()])
@@ -22,8 +22,11 @@ var DarkNet = /** @class */ (function () {
     };
     DarkNet.prototype.handleRequest = function (request) {
         var _this = this;
+        console.log('handleRequest', request.build());
         return new Promise(function (resolve, reject) {
+            console.log('runFilters');
             _this.runFilters(request).then(function () {
+                console.log('runFilters resolved');
                 if (!_this.routes[request.getMethod()])
                     return reject();
                 if (!_this.routes[request.getMethod()][request.getRoute()])
@@ -34,6 +37,7 @@ var DarkNet = /** @class */ (function () {
                     reject(err);
                 });
             }).catch(function (result) {
+                console.log('runFilters rejected', result);
                 reject(result);
             });
         });
@@ -44,10 +48,12 @@ var DarkNet = /** @class */ (function () {
             var toRun = [];
             for (var i = 0; i < _this.filters.length; ++i) {
                 if (_this.filters[i].shouldFilter(request)) {
+                    console.log('Push filter promise');
                     toRun.push(_this.filters[i].run(request));
                 }
             }
             Promise.all(toRun).then(function (values) {
+                console.log('Filters all finished');
                 for (var i = 0; i < values.length; ++i) {
                     console.log(values[i].filterName, values[i].success);
                     if (!values[i].success) {

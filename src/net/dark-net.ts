@@ -20,9 +20,9 @@ export class DarkNet {
     public registerFilter(filter: DarkFilter): void {
         this.filters.push(filter);
 
-        this.filters.sort((a, b) => {
+        /*this.filters.sort((a, b) => {
             return a.filterOrder() > b.filterOrder() ? 1 : b.filterOrder() > a.filterOrder() ? -1 : 0;
-        });
+        });*/
     }
 
     public registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void {
@@ -32,10 +32,12 @@ export class DarkNet {
     }
 
     public handleRequest(request: DarkRequest): Promise<DarkResponse> {
+        console.log('handleRequest', request.build());
         return new Promise((resolve, reject) => {
 
+            console.log('runFilters');
             this.runFilters(request).then(() => {
-
+                console.log('runFilters resolved');
                 if (!this.routes[request.getMethod()])
                     return reject();
 
@@ -49,6 +51,7 @@ export class DarkNet {
                 });
 
             }).catch((result) => {
+                console.log('runFilters rejected', result);
                 reject(result);
             });
 
@@ -63,12 +66,14 @@ export class DarkNet {
 
             for (let i = 0; i < this.filters.length; ++i) {
                 if (this.filters[i].shouldFilter(request)) {
+                    console.log('Push filter promise');
                     toRun.push(this.filters[i].run(request));
                 }
             }
 
 
             Promise.all(toRun).then((values) => {
+                console.log('Filters all finished');
                 for (let i = 0; i < values.length; ++i) {
                     console.log(values[i].filterName, values[i].success);
                     if (!values[i].success) {

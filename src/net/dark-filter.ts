@@ -11,8 +11,8 @@ export interface DarkFilter {
         post filters are executed after the request has been routed, and
         error filters execute if an error occurs in the course of handling the request.
      */
-    filterType(): string; //pre
-    filterOrder(): number;
+    //filterType(): string; //pre
+    //filterOrder(): number;
 
     shouldFilter(request: DarkRequest): boolean;
 
