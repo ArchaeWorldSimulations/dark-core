@@ -16,8 +16,11 @@ var DarkNet = /** @class */ (function () {
         });*/
     };
     DarkNet.prototype.registerRoute = function (method, route, callback) {
-        if (!this.routes[method.toUpperCase()])
+        if (!this.routes[method.toUpperCase()]) {
+            console.log('Creating method holder', method);
             this.routes[method.toUpperCase()] = {};
+        }
+        console.log('Adding route', route);
         this.routes[method][route] = callback;
     };
     DarkNet.prototype.handleRequest = function (request) {

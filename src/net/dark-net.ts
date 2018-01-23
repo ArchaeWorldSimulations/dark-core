@@ -26,8 +26,11 @@ export class DarkNet {
     }
 
     public registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void {
-        if (!this.routes[method.toUpperCase()])
+        if (!this.routes[method.toUpperCase()]) {
+            console.log('Creating method holder', method);
             this.routes[method.toUpperCase()] = {};
+        }
+        console.log('Adding route', route);
         this.routes[method][route] = callback;
     }
 
