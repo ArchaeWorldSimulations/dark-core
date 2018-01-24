@@ -40,7 +40,7 @@ export class DarkNet {
         this.routes[method][route] = callback;
     }
 
-    public handleRequest(request: DarkRequest): Promise<DarkResponse> {
+    public handleRequest(request: DarkRequest, optional?: any): Promise<DarkResponse> {
         console.log('handleRequest', request.build());
         return new Promise((resolve, reject) => {
 
@@ -57,7 +57,7 @@ export class DarkNet {
                     return reject();
                 }
 
-                this.routes[request.getMethod()][request.getRoute()](request).then((response) => {
+                this.routes[request.getMethod()][request.getRoute()](request, optional).then((response) => {
                     resolve(response);
                 }).catch((err) => {
                     console.log('Route rejected');
@@ -72,10 +72,10 @@ export class DarkNet {
         });
     }
 
-    public handleEncryptedRequest(keyManager: any, request: any): Promise<any> {
+    public handleEncryptedRequest(keyManager: any, request: any, optional?: any): Promise<any> {
         return new Promise((resolve, reject) => {
             DarkRequest.decrypt(keyManager, request).then((decrypted) => {
-                this.handleRequest(decrypted).then((response) => {
+                this.handleRequest(decrypted, optional).then((response) => {
                     resolve(response);
                 }).catch((err) => {
                     reject(err);

@@ -9,12 +9,12 @@ export declare class DarkNet {
     private routes;
     private filters;
     constructor();
-
     static getInstance(): DarkNet;
     registerFilter(filter: DarkFilter): void;
     registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void;
-    handleRequest(request: DarkRequest): Promise<DarkResponse>;
-    handleEncryptedRequest(keyManager: any, request: any): Promise<any>;
 
+    handleRequest(request: DarkRequest, optional?: any): Promise<DarkResponse>;
+
+    handleEncryptedRequest(keyManager: any, request: any, optional?: any): Promise<any>;
     private runFilters(request);
 }
