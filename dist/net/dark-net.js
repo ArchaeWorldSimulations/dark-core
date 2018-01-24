@@ -26,8 +26,11 @@ var DarkNet = /** @class */ (function () {
         console.log('Adding route', route);
         this.routes[method][route] = callback;
     };
-    DarkNet.prototype.handleRequest = function (request, optional) {
+    DarkNet.prototype.handleRequest = function (request, config) {
         var _this = this;
+        if (config === void 0) {
+            config = {};
+        }
         console.log('handleRequest', request.build());
         return new Promise(function (resolve, reject) {
             console.log('runFilters');
@@ -41,7 +44,7 @@ var DarkNet = /** @class */ (function () {
                     console.log('Route not registered');
                     return reject();
                 }
-                _this.routes[request.getMethod()][request.getRoute()](request, optional).then(function (response) {
+                _this.routes[request.getMethod()][request.getRoute()](request, config).then(function (response) {
                     resolve(response);
                 }).catch(function (err) {
                     console.log('Route rejected');
@@ -53,11 +56,14 @@ var DarkNet = /** @class */ (function () {
             });
         });
     };
-    DarkNet.prototype.handleEncryptedRequest = function (keyManager, request, optional) {
+    DarkNet.prototype.handleEncryptedRequest = function (keyManager, request, config) {
         var _this = this;
+        if (config === void 0) {
+            config = {};
+        }
         return new Promise(function (resolve, reject) {
             dark_request_1.DarkRequest.decrypt(keyManager, request).then(function (decrypted) {
-                _this.handleRequest(decrypted, optional).then(function (response) {
+                _this.handleRequest(decrypted, config).then(function (response) {
                     resolve(response);
                 }).catch(function (err) {
                     reject(err);

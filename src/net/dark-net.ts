@@ -31,7 +31,7 @@ export class DarkNet {
         });*/
     }
 
-    public registerRoute(method: string, route: string, callback: (request) => Promise<DarkResponse>): void {
+    public registerRoute(method: string, route: string, callback: (request: any, config?: any) => Promise<DarkResponse>): void {
         if (!this.routes[method.toUpperCase()]) {
             console.log('Creating method holder', method);
             this.routes[method.toUpperCase()] = {};
@@ -40,7 +40,7 @@ export class DarkNet {
         this.routes[method][route] = callback;
     }
 
-    public handleRequest(request: DarkRequest, optional?: any): Promise<DarkResponse> {
+    public handleRequest(request: DarkRequest, config: any = {}): Promise<DarkResponse> {
         console.log('handleRequest', request.build());
         return new Promise((resolve, reject) => {
 
@@ -57,7 +57,7 @@ export class DarkNet {
                     return reject();
                 }
 
-                this.routes[request.getMethod()][request.getRoute()](request, optional).then((response) => {
+                this.routes[request.getMethod()][request.getRoute()](request, config).then((response) => {
                     resolve(response);
                 }).catch((err) => {
                     console.log('Route rejected');
@@ -72,10 +72,10 @@ export class DarkNet {
         });
     }
 
-    public handleEncryptedRequest(keyManager: any, request: any, optional?: any): Promise<any> {
+    public handleEncryptedRequest(keyManager: any, request: any, config: any = {}): Promise<any> {
         return new Promise((resolve, reject) => {
             DarkRequest.decrypt(keyManager, request).then((decrypted) => {
-                this.handleRequest(decrypted, optional).then((response) => {
+                this.handleRequest(decrypted, config).then((response) => {
                     resolve(response);
                 }).catch((err) => {
                     reject(err);
