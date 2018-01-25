@@ -5,10 +5,10 @@ var DarkJwt = /** @class */ (function () {
     function DarkJwt() {
     }
 
-    DarkJwt.prototype.createJwt = function (content, secret) {
+    DarkJwt.createJwt = function (content, secret) {
         return jsonwebtoken_1.jwt.sign(content, secret);
     };
-    DarkJwt.prototype.verifyJwt = function (token, secret) {
+    DarkJwt.verifyJwt = function (token, secret) {
         return jsonwebtoken_1.jwt.verify(token, secret);
     };
     return DarkJwt;
