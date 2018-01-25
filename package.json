@@ -1,6 +1,6 @@
 {
   "name": "dark-core",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,7 +19,7 @@
   "homepage": "https://github.com/ArchaeWorldSimulations/dark-core#readme",
   "dependencies": {
     "js-sha3": "^0.7.0",
-    "jsonwebtoken": "^8.1.0",
+    "jsonwebtoken": "^8.1.1",
     "kbpgp": "^2.0.76",
     "notp": "^2.0.3",
     "promise": "^8.0.1"
