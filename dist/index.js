@@ -12,4 +12,6 @@ var dark_otp_1 = require("./auth/dark-otp");
 exports.DarkOtp = dark_otp_1.DarkOtp;
 var dark_jwt_1 = require("./auth/dark-jwt");
 exports.DarkJwt = dark_jwt_1.DarkJwt;
+var dark_hash_1 = require("./crypto/dark-hash");
+exports.DarkHash = dark_hash_1.DarkHash;
 //# sourceMappingURL=index.js.map

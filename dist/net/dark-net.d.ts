@@ -11,11 +11,8 @@ export declare class DarkNet {
     constructor();
     static getInstance(): DarkNet;
     registerFilter(filter: DarkFilter): void;
-
     registerRoute(method: string, route: string, callback: (request: any, config?: any) => Promise<DarkResponse>): void;
-
     handleRequest(request: DarkRequest, config?: any): Promise<DarkResponse>;
-
     handleEncryptedRequest(keyManager: any, request: any, config?: any): Promise<any>;
     private runFilters(request);
 }
